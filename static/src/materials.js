@@ -30,3 +30,5 @@ export var materials = [[
 	new THREE.MeshLambertMaterial({ map: new THREE.TextureLoader().load('/static/textures/tree.png') }),
 	new THREE.MeshLambertMaterial({ map: new THREE.TextureLoader().load('/static/textures/tree.png') })
 ]]
+//Навіщо пихати цю фігню всюди?
+//Текстури живуть тут

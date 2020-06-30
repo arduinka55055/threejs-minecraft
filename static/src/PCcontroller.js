@@ -115,7 +115,7 @@ document.addEventListener('postInit', function () {
 	var cubeMaterial = new THREE.MeshLambertMaterial({ map: new THREE.TextureLoader().load('/static/textures/grass.png') })
 	box = new THREE.Mesh(boxGeometry, cubeMaterial);
 	box.bbox = new THREE.Box3().setFromObject(box);
-	camera.add(box)
+	camera.add(box)// НЕ ПОТРіБНО, просто для експериментів з зіштовхуваннями
 
 
 	document.addEventListener('animateEvent', function (params) {
@@ -126,7 +126,7 @@ document.addEventListener('postInit', function () {
 		direction.z = Number(moveForward) - Number(moveBackward);
 		direction.x = Number(moveLeft) - Number(moveRight);
 		direction.normalize(); // this ensures consistent movements in all directions
-		/*
+		/* ЕКСПЕРИМЕНТ
 
 		var cameraBBOX=new THREE.Box3().setFromObject(window.camera);
 

@@ -9,7 +9,7 @@ document.addEventListener('postInit',function(){
 			box.position.y = Math.floor(Math.random() * 20) * 20 + 10;
 			box.position.z = Math.floor(Math.random() * 20 - 10) * 20;
 			window.scene.add(box);//на сцену
-			box.bbox = new THREE.Box3().setFromObject(box);//куб для зіткнень, вираховується для зіткнень
+			box.bbox = new THREE.Box3().setFromObject(box);//куб для зіткнень
 			objects.push(box);//в масив
 	}//цикл додає 500 об'єктів на поле
 	
@@ -19,6 +19,7 @@ var floorTexture=new THREE.TextureLoader().load( '/static/textures/grassTop.png'
 floorTexture.wrapS = THREE.RepeatWrapping;
 floorTexture.wrapT = THREE.RepeatWrapping;
 floorTexture.repeat.set( 80, 80 );
+
 var floorMaterial = new THREE.MeshLambertMaterial({map:floorTexture});//new THREE.MeshLambertMaterial({color:'#aaa'});
 var floor = new THREE.Mesh( floorGeometry, floorMaterial );
 floor.name='floor';

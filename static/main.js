@@ -3,6 +3,7 @@ import "./src/objects.js";//імпорт об'єктів
 import "./src/PCcontroller.js"//контроллер на компьютер
 import "./src/shooter.js"//пістолет
 
+
 //import "./src/collisions.js"
 ///import "./src/mobilecontroller.js"
 
@@ -16,7 +17,7 @@ window.renderer=null;
 window.scene=null;
 
 initsys();
-document.dispatchEvent(PostInitEvent);
+document.dispatchEvent(PostInitEvent);//свій event після прогрузки
 animate();
 
 
@@ -66,22 +67,23 @@ function initsys() {
     texture.minFilter=THREE.LinearFilter;
     window.scene.background = texture;
 
-	window.renderer = new THREE.WebGLRenderer( { antialias: true } );
-    window.renderer.shadowMap.enabled = true;
+	window.renderer = new THREE.WebGLRenderer( { antialias: true } );//ініціація рендеру
+    window.renderer.shadowMap.enabled = true;//тінь
     window.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     window.renderer.setPixelRatio( window.devicePixelRatio );
 	window.renderer.setSize( window.innerWidth, window.innerHeight );
     document.body.appendChild( window.renderer.domElement );
     //ініціювати основу гри. камера, рендер
+
 	window.addEventListener( 'resize', function() {
         window.camera.aspect = window.innerWidth / window.innerHeight;
         window.camera.updateProjectionMatrix();
         window.renderer.setSize( window.innerWidth, window.innerHeight );
-    }, false );//при зміні розміру вікна
+    }, false );//при зміні розміру вікна - змінювати розмір і відношення сторін
 }
 
 
-function animate() {//кожен раз на 1fps
+function animate() {//кожен раз на fps
 	requestAnimationFrame( animate );
     var time = performance.now();//перерахунок нового часу
     var delta = ( time - prevTime ) / 1000;//перерахунок різниці часу між оновленням кадру
@@ -94,7 +96,7 @@ function animate() {//кожен раз на 1fps
 }
 
 /*
-actually that 2.0 alpha version with refactored code
+actually it is 2.0 alpha version with refactored code
 */
 
 //https://habr.com/ru/post/183908/ про quartenion
