@@ -5,6 +5,7 @@ official server:
 https://site9373r.dns-cloud.net/
 
 cross-platform and playable from browser
+
 simple and boring, but we will updating it.
 
 
