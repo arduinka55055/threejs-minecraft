@@ -1,0 +1,141 @@
+
+#blocker {
+    z-index: 10;
+    color: red;
+    position: relative;
+}
+* {
+    user-select: none;
+    -moz-user-select: none;
+}
+canvas {
+    position: fixed;
+    z-index: 5;
+    right: 0px;
+    left: 0px;
+    top: 0px;
+}
+
+#alerter {
+    position: fixed;
+    left: 80px;
+    top: 80px;
+    color: red;
+    z-index: 10;
+}
+
+#banner {
+    position: fixed;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+    background-color: gray;
+    z-index: 128;
+}
+
+#selector img {
+    border: solid 0.3vw yellow;
+    width: 4vw;
+    height: 4vw;
+    /*margin:0px 0.2vw;*/
+}
+
+#selector {
+    border: solid 1px red;
+    left: 20%;
+    right: 20%;
+    bottom: 1%;
+    position: fixed;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5vw;
+    margin: 0px;
+}
+
+#outerT {
+    position: fixed;
+    z-index: 14;
+    left: 20%;
+    right: 70%;
+    top: 70%;
+    bottom: 20%;
+    overflow: visible;
+    pointer-events: none;
+    display: none;
+}
+
+#innerT {
+    position: absolute;
+    z-index: 15;
+    left: 35%;
+    right: 35%;
+    top: 35%;
+    bottom: 35%;
+    pointer-events: none;
+}
+
+#place {
+    position: fixed;
+    right: 2%;
+    left: auto;
+    top: 2%;
+    bottom: auto;
+    z-index: 20;
+    width: 8%;
+    height: auto;
+}
+#del {
+    position: fixed;
+    right: 2%;
+    left: auto;
+    top: 24%;
+    bottom: auto;
+    z-index: 20;
+    width: 8%;
+    height: auto;
+}
+#jump {
+    position: fixed;
+    right: 2%;
+    left: auto;
+    top: 46%;
+    bottom: auto;
+    z-index: 20;
+    width: 8%;
+    height: auto;
+}
+#error{
+    position: fixed;
+    right: 20%;
+    left: 20%;
+    top: 25%;
+    bottom: 25%;
+    border: solid 4px gray;
+    background-color: rgba(100,100,100,0.8);
+    border-radius: 20px;
+    z-index: 9999;
+    width:60%;
+    height:50%;
+}
+#errorH{
+    font-weight: bold;
+    font-size: large;
+    color:red;
+    text-align: center;
+}
+#errorM{
+    color:yellow;
+}
+#errorB{
+    font-weight: bold;
+    color:blue;
+}
+#errorC{
+    position: absolute;
+    left:97%;
+    top:1%;
+    font-weight: bold;
+    color:red;
+}

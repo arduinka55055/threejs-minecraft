@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>three.js miraculous</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+	<link rel="stylesheet" href="/static/main.css">
+	
+	<script src="/static/three.js"></script>
+    <script type="module" src='/static/main.js'></script>
+	
+    <script>
+    window.onload=function(){
+    document.getElementById('banner').style.display='none';
+    //if(navigator.userAgent.indexOf('Windows')==-1){
+    //window.location.href="https://"+window.location.hostname+"/indexmobile.html";
+	//}
+	}
+    //window.location.href="/indexmobile.html";
+    </script>
+	</head>
+<body>
+
+    <div id="blocker">
+        <span style="font-size:10px">Click to play!</span>
+    </div>
+    <div id="alerter"></div>
+    <div id='banner'>
+        Your game is loading<br>
+        Please wait
+    </div>
+    <div id="selector">
+        <img src="/static/textures/grass.png" onclick="select(0)"/>
+        <img src="/static/textures/diamond.png" onclick="select(1)" />
+        <img src="/static/textures/cobblestone.png" onclick="select(2)"/>
+        <img src="/static/textures/tree.png" onclick="select(3)"/>
+    </div>
+    
+</body></html>

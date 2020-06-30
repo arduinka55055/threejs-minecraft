@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>three.js miraculous</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <script>
+    window.onload=function(){
+    document.getElementById('banner').style.display='none';
+    if(navigator.userAgent.indexOf('Windows')!=-1){
+    console.log(document.getElementsByClassName('mobile'));
+    for(var x=0;x<document.getElementsByClassName('mobile').length;x++){
+        document.getElementsByClassName('mobile')[x].outerHTML=null;
+        window.onload=null;
+    } }
+    if(navigator.userAgent.indexOf('Windows')==-1){
+        console.log=function(arg){
+        document.getElementById('cmdContainer').innerHTML+='<span style="color:white">'+arg+'</span><br>';
+        }
+        console.warn=function(arg){
+        document.getElementById('cmdContainer').innerHTML+='<span style="color:yellow">'+arg+'</span><br>';
+        }
+        console.error=function(arg){
+        document.getElementById('cmdContainer').innerHTML+='<span style="color:red">'+arg+'</span><br>';
+        }
+        console.info=function(arg){
+        document.getElementById('cmdContainer').innerHTML+='<span style="color:gray">'+arg+'</span><br>';
+        }
+        document.getElementById('okay').addEventListener('touchend',function(e){
+        console.log(eval(document.getElementById('cmd').value));
+        });
+        } }
+    </script>
+    <style>
+        canvas {position:fixed;z-index:5;right:0px;left:0px;top:0px}
+        #alerter{position:fixed;left:80px;top:80px;color:red;z-index:10;}
+        #banner{position:fixed;left:0px;right:0px;top:0px;bottom:0px;background-color:gray;z-index:128;}
+        #controller{position:fixed;right:0%;left:70%;bottom:10%;top:45%;z-index:10;font-size:6vw;}
+        #console{overflow: scroll;}
+        #w,#a,#s,#d,#insert,#delete{position:absolute;color:red;border:solid gray;text-align:center;}
+        #w{left:33%;right:37%;top:0px;}
+        #a{left:0%;right:69%;top:55%;bottom:0%;}
+        #s{left:33%;right:37%;top:55%;bottom:0%;}
+        #d{left:65%;right:5%;top:55%;bottom:0%;}
+        #console{border:solid yellow 0.1vw;background-color:rgba(0,0,0,0);margin-bottom:2px;position:fixed;top:50%;bottom:0.1%;left:0px;right:0px;z-index:100;display:none;}
+        #insert{left:0%;right:69%;top:0px;font-size:2vw;bottom:65%;text-align:center;}
+        #delete{left:65%;right:5%;top:0px;font-size:2vw;bottom:65%;text-align:center;}
+        #blocker,#cmdtoggle{z-index:10;color:red;position:relative;}
+        #cmdtoggle{display:block;}
+        *{user-select:none;
+-moz-user-select:none;}
+    </style>
+	</head>
+	<body>
+		<script src="three.js"></script>
+		<script src="controlfirst.js"></script>
+		<script src="GLTFLoader.js"></script>
+		<div id="blocker">
+				<span style="font-size:10px">Click to play on PC</span>
+		</div>
+        <div id='cmdtoggle' class='mobile' style="font-size:10px">Click to show console</div>
+		<div id="alerter"></div>
+        <div id='banner'>
+            Your game is loading<br>
+            Please wait
+            
+        </div>
+        <div id="controller" class='mobile'>
+            <div id='insert'>place</div>
+            <div id='w' ontouchstart='moveForward = true;' ontouchend='moveForward = false;'>w</div>
+            <div id='delete'>del</div>
+            <div id='a' ontouchstart='moveLeft = true;' ontouchend='moveLeft = false;'>a</div>
+            <div id='s' ontouchstart='moveBackward = true;' ontouchend='moveBackward = false;'>s</div>
+            <div id='d' ontouchstart='moveRight = true;' ontouchend='moveRight = false;'>d</div>
+            </div>
+        <div id='console' class='mobile'>
+            <input id='cmd'><button id='okay'>ok</button>
+            <div id='cmdContainer'></div>
+        </div>
+        <script src='/main.js'></script>
+</body></html>

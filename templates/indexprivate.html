@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel='stylesheet' href='/static/index.css'/>
+<meta charset="utf-8">
+<title>Сервера майнкрафт</title>
+</head>
+<body>
+<header>
+hello world
+</header>
+
+
+<div id='urls' class='bordered'>
+{#
+{% for label in json.pages %}
+<div class='url'>{{ label }}</div>
+{% endfor %}
+#}
+</div>
+
+
+<div id='main' class='bordered'>
+{#
+{{ json.news_label }}
+{% for news in news_list %}
+<div class='news-container bordered'>
+<span class='title'>{{ news.title }}</span>
+<div class='data'>
+{{ news.info }}
+</div>
+</div>
+{% endfor %}
+#}
+
+</div>
+
+
+
+<nav class='bordered'>
+<img id='capcha' src=''/>
+<span>Аккаунт:</span>
+<span class='register'>Вы не войшли. Авторизируйтесь</span>
+<input type='email' id='email' placeholder='em@il'/>
+<input type='password' id='password' placeholder='пароль'/>
+<input type='text' id='code' placeholder='код с картинки'/>
+<input type='submit' id='submit' onclick='send()' ontouchend='send()' value='ok'/>
+<div id='errorflag'></div>
+</nav>
+
+<script>//тут будет динамическая загрузка содержимого
+if(localStorage.getItem('logged')!=null){
+    var xhr = new XMLHttpRequest(); 
+    xhr.open('POST', '/account', true);
+    xhr.setRequestHeader('content-type', 'application/x-www-form-urlencoded;charset=UTF-8');
+    xhr.onload = function(e) {
+        if (this.status == 200) {
+            document.getElementsByTagName('nav')[0].innerHTML=this.response;
+        }else{
+            localStorage.removeItem('logged');
+        }
+        };
+    xhr.send("hash="+localStorage.getItem('logged')+'&salt='+localStorage.getItem('salt'));
+}
+function caploader(){
+    window.URL = window.URL || window.webkitURL; 
+    var xhr = new XMLHttpRequest(); 
+    xhr.open('GET', '/capcha', true);
+    xhr.responseType = 'blob';
+    xhr.onload = function(e) {
+        if (this.status == 200) { 
+            var text=this.response.slice(0,40);//sha-1 40 байт
+            var reader=new FileReader();
+            reader.onload=function(){sessionStorage.setItem('hash',this.result);}
+            reader.readAsText(text);
+            sessionStorage.setItem('hash',1);
+            var blob = this.response.slice(40);
+            var img = document.getElementById('capcha');
+            img.src = window.URL.createObjectURL(blob);
+    } }; xhr.send();
+}
+caploader();
+function send(){
+    var xhr = new XMLHttpRequest(); 
+    xhr.responseType = 'json';
+    xhr.open('POST', '/login', true);
+    xhr.setRequestHeader('content-type', 'application/x-www-form-urlencoded;charset=UTF-8');
+    var hash=sessionStorage.getItem('hash');
+    var robotcode=document.getElementById('code').value;
+    var email=document.getElementById('email').value;
+    var password=document.getElementById('password').value;
+    xhr.onload = function(e) {
+        if (this.status == 200) {
+            console.log(this.response)
+            localStorage.setItem('logged',this.response[0]);
+            localStorage.setItem('salt',this.response[1]);
+            window.location.reload();
+        }
+        else{
+        console.log(this.response);
+        caploader();document.getElementById('errorflag').innerHTML=this.response[0];}
+        };
+    xhr.send("hash="+hash+'&input='+robotcode+'&email='+email+'&password='+password);
+}
+var url_container=document.getElementsByClassName('url');
+var innerMain=document.getElementById('main');
+loadNews();
+url_container[0].addEventListener('click',loadNews);
+url_container[0].addEventListener('touchend',loadNews);
+for(var x=1;x<url_container.length;x++){
+    url_container[x].addEventListener('click',load);
+    url_container[x].addEventListener('touchend',load);
+}
+function load(e){
+    var req = new XMLHttpRequest();
+    req.open("POST", "/page", true);
+    req.onreadystatechange = function () {
+    if(req.readyState === 4 && (req.status === 200 || req.status === 404)) {
+        innerMain.innerHTML=req.response;
+        }
+    };
+    req.setRequestHeader("content-type", "application/x-www-form-urlencoded;charset=UTF-8");
+    try{req.send("page="+e.target.innerText); }
+    catch{req.send("page="+e); }
+}
+function loadNews(){
+    var req = new XMLHttpRequest();
+    req.open("POST", "/news", true);
+    req.onreadystatechange = function () {
+    if(req.readyState === 4 && req.status === 200) {
+        innerMain.innerHTML='json.news_label'+req.response;
+        }};
+    req.setRequestHeader("content-type", "application/x-www-form-urlencoded;charset=UTF-8");
+    req.send(null);   
+}
+function unlogin(){localStorage.clear();}
+
+</script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8"/>
+<head>
+</head>
+<body>
+<input id='a'/>
+<input type="password" id="b"/>
+<button onclick="ok()">ok</button>
+<script>
+function ok(){
+    var xhr = new XMLHttpRequest(); 
+    xhr.open('POST', '/register', true);
+	xhr.setRequestHeader('content-type', 'application/x-www-form-urlencoded;charset=UTF-8');
+    xhr.send("username="+document.getElementById('a').value+'&password='+document.getElementById('b').value);
+}
+</script>
+</body>
+</html>
