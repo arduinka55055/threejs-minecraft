@@ -26,8 +26,8 @@ export function checkclick(action) {//використовуємо промін�
                 //////////////create object
                 var geometryy = new THREE.BoxBufferGeometry(20, 20, 20);
                 var voxel = new THREE.Mesh(geometryy, materials[selectIndex]);
-                console.log(intersections2[0].object.position);
-                voxel.position.copy(intersections2[0].face.normal.multiplyScalar(20));
+                voxel.position.copy(intersections2[0].point ).add( intersections2[0].face.normal );
+                voxel.position.divideScalar(20).floor().multiplyScalar(20).floor().addScalar(20);
                 voxel.position.y -= 10;
                 voxel.castShadow = true;
                 var bugflag = false;
@@ -44,7 +44,7 @@ export function checkclick(action) {//використовуємо промін�
                 else {
                     bugflag = false;
                     voxel.position.copy(intersections2[0].point).add(new THREE.Vector3(intersections2[0].face.normal.x - 10, intersections2[0].face.normal.y, intersections2[0].face.normal.z - 10));
-                    voxel.position.divideScalar(20).floor().multiplyScalar(20).floor();
+                    voxel.position.divideScalar(20).floor().multiplyScalar(20).floor().addScalar(20);
                     voxel.position.y -= 10;
                     for (var x = 0; x <= window.objects.length - 1; x++) {
                         var blockinblockfix = window.objects[x].position.x == voxel.position.x && window.objects[x].position.y == voxel.position.y && window.objects[x].position.z == voxel.position.z;

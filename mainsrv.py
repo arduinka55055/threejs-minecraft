@@ -8,14 +8,14 @@ def main():
     try:
         platform=request.user_agent.platform.lower()
         print("\033[92m"+platform+"\033[0m")
-        if platform == "windows":
+        if platform == "windows" or platform == "linux":
             return open(cwd+'/index.html').read()
         elif platform == "android":
             return open(cwd+'/indexmobile.html').read()
         elif platform == "iphone":
             return open(cwd+'/indexios.html').read()
         else:
-            return "you're very specific person! wait for updates or change device! "
+            return "you're very specific person! wait for updates or change device!"
     except:
         return open(cwd+'/index.html').read()
 @app.route("/src.zip")
