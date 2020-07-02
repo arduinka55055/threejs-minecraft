@@ -1,6 +1,7 @@
 import {materials} from "./materials.js"; // просто завантаження текстур
 export var objects = [];//майже усі об'єкти 
 document.addEventListener('postInit',function(){
+	/*
 	var boxGeometry = new THREE.BoxBufferGeometry(20, 20, 20);
 	var cubeMaterial = materials[0];//при створенні об'єкта потрібна форма та текстура
 	for (var i = 0; i < 500; i++) {
@@ -13,7 +14,7 @@ document.addEventListener('postInit',function(){
 			objects.push(box);//в масив
 	}//цикл додає 500 об'єктів на поле
 	//всунуть сервер сюда
-	
+	*/
 //підлога	
 var floorGeometry = new THREE.BoxBufferGeometry( 2000, 0.1, 2000 );
 var floorTexture=new THREE.TextureLoader().load( '/static/textures/grassTop.png' );
