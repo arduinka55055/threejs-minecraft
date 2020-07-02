@@ -1,8 +1,9 @@
 from flask import Flask,request,redirect,Response,render_template,make_response
-import socket,os
+import socket,os,json,hashlib
 cwd=os.path.dirname(os.path.realpath(__file__))
-app=Flask(__name__)
+app=Flask(__name__,template_folder=cwd)
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 60*60
+app.config['TEMPLATES_AUTO_RELOAD'] = True
 @app.route('/game')
 def main():
     try:
@@ -18,6 +19,10 @@ def main():
             return "you're very specific person! wait for updates or change device!"
     except:
         return open(cwd+'/index.html').read()
+@app.route('/')
+def servers():
+        return render_template("serverwindow.html",servers=json.load(open("servers.json")),sha1=hashlib.sha1)
+    
 @app.route("/src.zip")
 def aa():
     return Response(open(cwd+"/src.zip",'rb').read(),mimetype='application/zip')

@@ -1,0 +1,14 @@
+[
+    {
+        "name": "Official server #1",
+        "ip": "site9373r.dns-cloud.net",
+        "port":25555,
+        "maxplayers":10
+    },
+    {
+        "name": "dedicated server",
+        "ip": "example.com",
+        "port":25555,
+        "maxplayers":10
+    }
+]

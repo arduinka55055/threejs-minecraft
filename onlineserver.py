@@ -7,7 +7,8 @@ import sys
 import math
 import random
 import json
-clients=[]
+clients = []
+
 
 class GameHandler():
     def __init__(self):
@@ -51,7 +52,7 @@ class MainHandler(tornado.websocket.WebSocketHandler):
         clients.append(self)
         self.set_nodelay(True)
         print("WebSocket opened")
-        print(clients)
+        self.write_message(str(len(clients)).encode())
 
     def on_message(self, message):
         msg = message.split()
@@ -79,7 +80,16 @@ class MainHandler(tornado.websocket.WebSocketHandler):
 
     def on_pong(self, value):
         pass
-        #print("pong answer from %s %s" % (self.request.remote_ip,value)) 
+        #print("pong answer from %s %s" % (self.request.remote_ip,value))
+
+    def check_origin(self, origin):
+        return True
+
+
+class PingHandler(tornado.websocket.WebSocketHandler):
+    def open(self):
+        self.write_message(str(len(clients)).encode())
+
     def check_origin(self, origin):
         return True
 
@@ -87,6 +97,7 @@ class MainHandler(tornado.websocket.WebSocketHandler):
 def make_app():
     return tornado.web.Application([
         (r"/", MainHandler),
+        (r"/ping", PingHandler)
     ], websocket_ping_interval=5)
 
 

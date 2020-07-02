@@ -9,8 +9,6 @@
     <meta name="theme-color" content="#4c5844" />
     <link rel="stylesheet" href="/static/main.css">
     <style>
-
-
         * {
             padding: 0px;
             margin: 0px;
@@ -22,7 +20,7 @@
             background-color: #4c5844;
             scroll-snap-type: y mandatory;
             scroll-snap-points-y: repeat(5%);
-            font-family:Courier New;
+            font-family: Courier New;
         }
 
         table {
@@ -55,19 +53,8 @@
             height: 5%;
             padding-left: 0.4%;
         }
-
-
-        /*canvas {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            margin: auto;
-        }*/
     </style>
 
-    <!--<script src='/static/main.js'></script>-->
 
 </head>
 
@@ -81,26 +68,36 @@
         </tr>
         </thead>
         <tbody id="table">
-            <tr>
-                <td>Official server #1</td>
-                <td>site9373r.dns-cloud.net</td>
-                <td>0/20</td>
-                <td>20ms</td>
+            {% for srv in servers %}
+            <tr id="s{{ sha1((srv.name+srv.ip).encode()).hexdigest() }}">
+                <td>{{ srv.name }}</td>
+                <td class="ip">{{ srv.ip }}:{{ srv.port }}</td>
+                <td class="maxp">{{ srv.maxplayers }}</td>
+                <td class="ping">∞</td>
+                <script>
+                    setInterval(() => {
+                        var pingtimer = performance.now();
+                        var pinger = new WebSocket("wss://{{ srv.ip }}:{{ srv.port }}/ping");
+                        pinger.onopen = (e) => {
+                            document.querySelector("#s{{ sha1((srv.name+srv.ip).encode()).hexdigest() }} > .ping").innerHTML = Math.round((performance.now() - pingtimer) / 2);
+                        }
+                        pinger.onmessage = (e) => {
+                            document.querySelector("#s{{ sha1((srv.name+srv.ip).encode()).hexdigest() }} > .maxp").innerHTML = e.data + "/{{ srv.maxplayers }}";
+                            e.target.close();
+                        }
+                        pinger.onerror = () => { document.querySelector("#s{{ sha1((srv.name+srv.ip).encode()).hexdigest() }} > .ping").innerHTML = "∞"; e.target.close(); }
+                    }, 1000);
+
+                </script>
             </tr>
+            {% endfor %}
     </table>
 
-    <!--<canvas id="ctx"></canvas>-->
-
     <script>
-        window.addEventListener("load", function () {
-            setTimeout(function () {
-                // This hides the address bar:
-                window.scrollTo(0, 1);
-            }, 10);
-        });
 
-        var hoversound = new Audio('hover.wav');
-        var clicksound = new Audio('click.wav');
+
+        var hoversound = new Audio('/static/sounds/hover.wav');
+        var clicksound = new Audio('/static/sounds/click.wav');
         [...document.querySelectorAll("#table tr")].forEach(element => {
             element.onmouseenter = (e) => {
                 e.target.style.backgroundColor = "#958831";
@@ -111,6 +108,15 @@
             }
             element.onclick = (e) => {
                 clicksound.play();
+                var ip_addr = e.target.parentNode.querySelector(".ip").innerHTML;
+                //розламуємо стрічку по '/':     "5/10"  =>  ["5","10"]
+                var playerarray=e.target.parentNode.querySelector(".maxp").innerHTML.split("/");
+
+                //перевірка на к-сть гравців                                перевірка на пінг сервера. можливо, він "впав"?
+                if((parseInt(playerarray[0])>=parseInt(playerarray[1])) || (e.target.parentNode.querySelector(".ping").innerHTML=="∞")){
+                    if(!confirm("Сервер має деякі проблеми:\nзабагато гравців або сервер недоступний\nПродовжити?")) return 1;
+                }
+                window.location.href+="game?ip="+ip_addr;
             }
 
         });
