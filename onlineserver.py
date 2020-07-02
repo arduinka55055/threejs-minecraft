@@ -18,7 +18,7 @@ class GameHandler():
 
     def genWorld(self):
         world = []
-        for xxx in range(0, 200):
+        for xxx in range(0, 500):
             box = {"x": 0, "y": 0, "z": 0, "mat": 0}
             box["x"] = math.floor(random.random() * 20 - 10) * 20
             box["y"] = math.floor(random.random() * 20) * 20 + 10
@@ -28,7 +28,7 @@ class GameHandler():
         return world
 
     def getWorld(self):
-        return self.world
+        return ["world"]+self.world
 
     def removeXYZ(self, x, y, z):
         iErrorCheck = 0
@@ -55,6 +55,7 @@ class MainHandler(tornado.websocket.WebSocketHandler):
         self.write_message(str(len(clients)).encode())
 
     def on_message(self, message):
+        print(message)
         msg = message.split()
         if msg[0] == "close":
             IOLoop.current().stop()

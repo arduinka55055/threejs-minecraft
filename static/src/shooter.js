@@ -57,9 +57,9 @@ document.addEventListener('animateEvent', function (params) {
     bullets.forEach(b => {//перелік усіх куль
         b.translateZ(-500 * delta); // move along the local z-axis
         b.bbox.setFromObject(b);
-        for (var cc = 0; cc < objects.length; cc++) {
-            if (objects[cc].bbox.intersectsBox(b.bbox) == true) {//влучив у ціль
-                window.scene.remove(objects[cc]);
+        for (var cc = 0; cc < window.objects.length; cc++) {
+            if (window.objects[cc].bbox.intersectsBox(b.bbox) == true) {//влучив у ціль
+                window.scene.remove(window.objects[cc]);
                 window.scene.remove(b);//зникає куля і блок-жертва
                 window.objects.splice(cc, 1);
                 var indexx = bullets.indexOf(b);

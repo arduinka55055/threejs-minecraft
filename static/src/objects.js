@@ -1,5 +1,4 @@
 import {materials} from "./materials.js"; // просто завантаження текстур
-export var objects = [];//майже усі об'єкти 
 document.addEventListener('postInit',function(){
 	/*
 	var boxGeometry = new THREE.BoxBufferGeometry(20, 20, 20);
@@ -39,7 +38,6 @@ light2.shadow.mapSize.height = 2048;
 
 scene.add( light );
 scene.add( light2 ); 
-window.objects=objects;
 });
 //для цих та інших матеріалів документація:
 //https://threejs.org/docs/index.html#manual/en/introduction/Creating-a-scene
