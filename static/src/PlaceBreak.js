@@ -1,4 +1,5 @@
 import {materials} from "./materials.js";
+
 var selectIndex=0;
 document.getElementById('selector').children[0].style.borderColor = "blue";
 export function select(index){//вибір блока

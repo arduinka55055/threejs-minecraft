@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>шашки</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="theme-color" content="#4c5844" />
+    <link rel="stylesheet" href="/static/main.css">
+    <style>
+
+
+        * {
+            padding: 0px;
+            margin: 0px;
+        }
+
+
+        html {
+            height: 100%;
+            background-color: #4c5844;
+            scroll-snap-type: y mandatory;
+            scroll-snap-points-y: repeat(5%);
+            font-family:Courier New;
+        }
+
+        table {
+            font-size: 2.5vw;
+            color: #ecf1e7;
+            cursor: default;
+            background-color: #3e4637;
+            overflow: hidden;
+            width: 100%;
+
+        }
+
+        #caption td {
+            background-color: #4c5844;
+            border-color: #7e8774;
+            border-style: outset;
+            border-width: 1.5px;
+            border-collapse: collapse;
+        }
+
+        #caption {
+            position: sticky;
+            top: 0%;
+            left: 0%;
+            right: 0%;
+
+        }
+
+        td {
+            height: 5%;
+            padding-left: 0.4%;
+        }
+
+
+        /*canvas {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+        }*/
+    </style>
+
+    <!--<script src='/static/main.js'></script>-->
+
+</head>
+
+<body>
+    <table>
+        <tr id="caption">
+            <td class="servershead">Сервер</td>
+            <td class="servershead">IP адреса</td>
+            <td class="servershead">Гравці</td>
+            <td class="servershead">Пінг</td>
+        </tr>
+        </thead>
+        <tbody id="table">
+            <tr>
+                <td>Official server #1</td>
+                <td>site9373r.dns-cloud.net</td>
+                <td>0/20</td>
+                <td>20ms</td>
+            </tr>
+    </table>
+
+    <!--<canvas id="ctx"></canvas>-->
+
+    <script>
+        window.addEventListener("load", function () {
+            setTimeout(function () {
+                // This hides the address bar:
+                window.scrollTo(0, 1);
+            }, 10);
+        });
+
+        var hoversound = new Audio('hover.wav');
+        var clicksound = new Audio('click.wav');
+        [...document.querySelectorAll("#table tr")].forEach(element => {
+            element.onmouseenter = (e) => {
+                e.target.style.backgroundColor = "#958831";
+                hoversound.play();
+            }
+            element.onmouseleave = (e) => {
+                e.target.style.backgroundColor = "";
+            }
+            element.onclick = (e) => {
+                clicksound.play();
+            }
+
+        });
+
+    </script>
+</body>
+
+</html>

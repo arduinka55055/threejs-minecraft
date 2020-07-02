@@ -3,7 +3,7 @@ import socket,os
 cwd=os.path.dirname(os.path.realpath(__file__))
 app=Flask(__name__)
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 60*60
-@app.route('/')
+@app.route('/game')
 def main():
     try:
         platform=request.user_agent.platform.lower()

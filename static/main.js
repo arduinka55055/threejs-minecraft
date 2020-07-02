@@ -3,7 +3,7 @@ import "./src/objects.js";//імпорт об'єктів
 import "./src/PCcontroller.js"//контроллер на компьютер
 import "./src/shooter.js"//пістолет
 
-
+import {GameSocket} from "./src/socket.js";
 //import "./src/collisions.js"
 ///import "./src/mobilecontroller.js"
 
@@ -17,6 +17,7 @@ window.renderer=null;
 window.scene=null;
 
 initsys();
+var sck=new GameSocket()
 document.dispatchEvent(PostInitEvent);//свій event після прогрузки
 animate();
 

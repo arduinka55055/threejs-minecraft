@@ -12,6 +12,7 @@ document.addEventListener('postInit',function(){
 			box.bbox = new THREE.Box3().setFromObject(box);//куб для зіткнень
 			objects.push(box);//в масив
 	}//цикл додає 500 об'єктів на поле
+	//всунуть сервер сюда
 	
 //підлога	
 var floorGeometry = new THREE.BoxBufferGeometry( 2000, 0.1, 2000 );
