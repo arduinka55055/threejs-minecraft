@@ -14,11 +14,11 @@ export function select(index){//вибір блока
 export function checkclick(action) {//використовуємо промінь №2
     var raycaster2 = new THREE.Raycaster(new THREE.Vector3(), new THREE.Vector3(0, 0, -1), 0, 80);
     raycaster2.set(window.camera.getWorldPosition(new THREE.Vector3(0, 0, 0)), window.camera.getWorldDirection(new THREE.Vector3(0, 0, 0)));
-    var intersections2 = raycaster2.intersectObjects(objects);
+    var intersections2 = raycaster2.intersectObjects(window.objects);
     if (intersections2.length > 0) {//remove object
         if (action == true) {
             var selectedObject = intersections2[0].object;
-            var deleteme = objects.indexOf(intersections2[0].object);
+            var deleteme = window.objects.indexOf(intersections2[0].object);
             window.scene.remove(selectedObject);
             window.objects.splice(deleteme, 1);
         }
