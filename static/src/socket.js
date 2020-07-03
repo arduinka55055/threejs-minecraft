@@ -14,7 +14,7 @@ export class GameSocket {
         this.socket = new WebSocket(url);
 
         this.socket.onopen = () => {
-            console.log("Соединение установлено.");
+            console.log("Соединение установлено.");//как же без копипаст?
             updateWorldFlag = true;
             this.socket.send("world");
         };
@@ -33,7 +33,6 @@ export class GameSocket {
             var splitted = event.data.split(" ")
             console.log(splitted)
             if (splitted[0] === "append") {
-                alert()
                 var geometryy = new THREE.BoxBufferGeometry(20, 20, 20);
                 var voxell = new THREE.Mesh(geometryy, materials[splitted[4]]);
                 voxell.position.set(parseInt(splitted[1]), parseInt(splitted[2]), parseInt(splitted[3]))
@@ -79,7 +78,11 @@ export class GameSocket {
         this.socket.onerror = function (error) {
             console.error("Ошибка " + error.message);
         };
-
-
+        document.addEventListener('blockDeleted', (params) =>{
+            this.socket.send("delete "+params.block.x+" "+params.block.y+" "+params.block.z)
+        });
+        document.addEventListener('blockPlaced', (params) =>{
+            this.socket.send("append "+params.block.x+" "+params.block.y+" "+params.block.z+" "+params.block.mat)
+        });
     }
 }

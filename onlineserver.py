@@ -59,6 +59,8 @@ class MainHandler(tornado.websocket.WebSocketHandler):
         msg = message.split()
         if msg[0] == "close":
             IOLoop.current().stop()
+
+
         if msg[0] == "world":
             self.write_message(json.dumps(mygame.getWorld()).encode())
         elif msg[0] == "delete":
@@ -66,22 +68,21 @@ class MainHandler(tornado.websocket.WebSocketHandler):
                 int(msg[1]), int(msg[2]), int(msg[3])) else b"fail")
 
             for clientt in clients:
-                clientt.write_message(message)
+                if not clientt == self:
+                    clientt.write_message(message)
 
         elif msg[0] == "append":
             self.write_message(u"success" if mygame.addXYZM(
                 int(msg[1]), int(msg[2]), int(msg[3]), int(msg[4])) else b"fail")
 
             for clientt in clients:
-                clientt.write_message(message)
+                if not clientt == self:
+                    clientt.write_message(message)
 
     def on_close(self):
         clients.remove(self)
         print("WebSocket closed")
 
-    def on_pong(self, value):
-        pass
-        #print("pong answer from %s %s" % (self.request.remote_ip,value))
 
     def check_origin(self, origin):
         return True
