@@ -199,8 +199,8 @@ document.addEventListener('postInit', function () {
 		if (moveLeft || moveRight) velocity.x -= direction.x * 500.0 * delta;
 
 		if (calcObjIntersection(window.objects) == true) {//вертикальне зіткнення
-			//velocity.y = Math.max( 0, velocity.y );
-			//canJump = true;
+			velocity.y = Math.max( 0, velocity.y );
+			canJump = true;
 		}
 
 

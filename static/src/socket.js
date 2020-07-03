@@ -48,8 +48,13 @@ export class GameSocket {
                     if( el.object.position.x==parseInt(splitted[1]) && el.object.position.y==parseInt(splitted[2]) && el.object.position.z==parseInt(splitted[3])){
                         var deleteme = objects.indexOf(el.object);
                         console.log(el.object)
-                        window.scene.remove(el.object);
+                        
                         window.objects.splice(deleteme, 1);
+                        window.scene.remove(el.object);
+                        el.object.geometry.dispose();
+                        el.object.material.dispose();
+                        delete el.object;
+                        window.renderer.renderLists.dispose();
                     }
                 })
                 

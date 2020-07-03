@@ -44,11 +44,11 @@ export function checkclick(action) {//використовуємо промін�
                 }
                 ///////////////check bug
                 if (!bugflag) {
-                    /*
+                    
                     window.scene.add(voxel);
                     voxel.bbox = new THREE.Box3().setFromObject(voxel);
                     window.objects.push(voxel);
-                    */
+                    
                     blockPlaceEvent.block = { "x": voxel.position.x, "y": voxel.position.y, "z": voxel.position.z, 'mat': selectIndex }
                     console.log(blockPlaceEvent.block)
                     document.dispatchEvent(blockPlaceEvent);
@@ -63,11 +63,11 @@ export function checkclick(action) {//використовуємо промін�
                         if (blockinblockfix == true) { bugflag = true; }
                     }
                     if (!bugflag) {
-                        /*
+                        
                         window.scene.add(voxel);
                         voxel.bbox = new THREE.Box3().setFromObject(voxel);
                         window.objects.push(voxel);
-                        */
+                        
                         blockPlaceEvent.block = { "x": voxel.position.x, "y": voxel.position.y, "z": voxel.position.z, 'mat': selectIndex }
                         console.log(blockPlaceEvent.block)
                         document.dispatchEvent(blockPlaceEvent);

@@ -2,6 +2,7 @@ import "./lib/GLTFLoader.js"//завантажувач модельок в сп�
 import * as pb from "./PlaceBreak.js"
 var emitter;
 var bullets = [];//масив з кулями
+var blockRemoveEvent = new CustomEvent('blockDeleted', { 'block': null })//евент, руйнуємо блок 
 
 document.addEventListener('postInit', function () {
     var loader = new THREE.GLTFLoader();
@@ -59,6 +60,11 @@ document.addEventListener('animateEvent', function (params) {
         b.bbox.setFromObject(b);
         for (var cc = 0; cc < window.objects.length; cc++) {
             if (window.objects[cc].bbox.intersectsBox(b.bbox) == true) {//влучив у ціль
+
+                blockRemoveEvent.block = { "x": window.objects[cc].position.x, "y": window.objects[cc].position.y, "z": window.objects[cc].position.z }
+                console.log(blockRemoveEvent.block)
+                document.dispatchEvent(blockRemoveEvent);
+
                 window.scene.remove(window.objects[cc]);
                 window.scene.remove(b);//зникає куля і блок-жертва
                 window.objects.splice(cc, 1);

@@ -2,7 +2,7 @@
 //import "./src/PCcontroller.js"
 //import "./src/shooter.js"
 import "./src/mobilecontroller.js"
-
+import { GameSocket } from "./src/socket.js";
 var PostInitEvent = new Event('postInit');
 var AnimateEvent = new CustomEvent('animateEvent', {'delta': null})
 var prevTime = performance.now();
@@ -11,8 +11,9 @@ var color = new THREE.Color();
 window.camera=null;
 window.renderer=null;
 window.scene=null;
-
+window.objects=[];
 initsys();
+var sck = new GameSocket()
 document.dispatchEvent(PostInitEvent);
 animate();
 
