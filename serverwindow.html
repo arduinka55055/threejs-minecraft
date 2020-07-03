@@ -76,7 +76,7 @@
                 <td class="ping">∞</td>
                 <script>
                     setInterval(() => {
-                        var pingtimer = performance.now();
+                        var pingtimer = performance.now();//hello there! {# не, такого говна не будет в страничке. зато это целебно, ибо динамично и на сервере #}
                         var pinger = new WebSocket("wss://{{ srv.ip }}:{{ srv.port }}/ping");
                         pinger.onopen = (e) => {
                             document.querySelector("#s{{ sha1((srv.name+srv.ip).encode()).hexdigest() }} > .ping").innerHTML = Math.round((performance.now() - pingtimer) / 2);

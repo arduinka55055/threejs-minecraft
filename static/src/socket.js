@@ -1,4 +1,5 @@
 import { materials } from "./materials.js";
+import * as microutils from "./microutils.js";
 function split(string) {
     for (var i = 0; i < string.length; i++) {
         stringArray.push(string[i]);
@@ -12,7 +13,7 @@ export class GameSocket {
     constructor(url = "wss:site9373r.dns-cloud.net:25555") {
         this.url = url;
         this.socket = new WebSocket(url);
-
+        this.playernicks = [];
         this.socket.onopen = () => {
             console.log("Соединение установлено.");//как же без копипаст?
             updateWorldFlag = true;
@@ -29,35 +30,44 @@ export class GameSocket {
         };
 
         this.socket.onmessage = function (event) {
+
             console.info("Получены данные " + event.data);
             var splitted = event.data.split(" ")
             console.log(splitted)
+            if (splitted[0] === "move") {
+                if (this.playernicks.includes(splitted[1])) {
+                    window.scene.getObjectByName(splitted[1]).position.copy(microutils.strXYZ2Vector3(splitted[2], splitted[3], splitted[4]));
+                }
+            }
+
             if (splitted[0] === "append") {
                 var geometryy = new THREE.BoxBufferGeometry(20, 20, 20);
                 var voxell = new THREE.Mesh(geometryy, materials[splitted[4]]);
-                voxell.position.set(parseInt(splitted[1]), parseInt(splitted[2]), parseInt(splitted[3]))
+                voxell.position.copy(microutils.strXYZ2Vector3(splitted[1], splitted[2], splitted[3]))
                 voxell.bbox = new THREE.Box3().setFromObject(voxell);
                 window.scene.add(voxell);
                 window.objects.push(voxell);
                 console.log(voxell);
             }
+
             if (splitted[0] === "delete") {
-                var myraycaster = new THREE.Raycaster(new THREE.Vector3(parseInt(splitted[1]),parseInt(splitted[2])+11,parseInt(splitted[3])), new THREE.Vector3(0, -1, 0), 0, 20);
+                var myraycaster = new THREE.Raycaster(new THREE.Vector3(parseInt(splitted[1]), parseInt(splitted[2]) + 11, parseInt(splitted[3])), new THREE.Vector3(0, -1, 0), 0, 20);
                 console.log(myraycaster.intersectObjects(window.objects))
-                myraycaster.intersectObjects(window.objects).forEach((el)=>{
-                    if( el.object.position.x==parseInt(splitted[1]) && el.object.position.y==parseInt(splitted[2]) && el.object.position.z==parseInt(splitted[3])){
+                myraycaster.intersectObjects(window.objects).forEach((el) => {
+                    console.log(el.object.position);
+                    console.log(microutils.strXYZ2Vector3(splitted[1], splitted[2], splitted[3]));
+                    if (el.object.position.equals(microutils.strXYZ2Vector3(splitted[1], splitted[2], splitted[3]))) {
                         var deleteme = objects.indexOf(el.object);
                         console.log(el.object)
-                        
-                        window.objects.splice(deleteme, 1);
-                        window.scene.remove(el.object);
-                        el.object.geometry.dispose();
-                        el.object.material.dispose();
-                        delete el.object;
-                        window.renderer.renderLists.dispose();
+                        try {
+                            window.objects.splice(deleteme, 1);
+                            window.scene.remove(el.object);
+                            window.renderer.renderLists.dispose();
+                        }
+                        catch (TypeError) {
+                        }
                     }
-                })
-                
+                });
             }
             if (updateWorldFlag == true) {
                 try {
@@ -78,16 +88,15 @@ export class GameSocket {
                     }
                 } catch (ee) { console.error(ee) }
             }
-        };
-
+        }
         this.socket.onerror = function (error) {
             console.error("Ошибка " + error.message);
         };
-        document.addEventListener('blockDeleted', (params) =>{
-            this.socket.send("delete "+params.block.x+" "+params.block.y+" "+params.block.z)
+        document.addEventListener('blockDeleted', (params) => {
+            this.socket.send("delete " + params.block.x + " " + params.block.y + " " + params.block.z)
         });
-        document.addEventListener('blockPlaced', (params) =>{
-            this.socket.send("append "+params.block.x+" "+params.block.y+" "+params.block.z+" "+params.block.mat)
+        document.addEventListener('blockPlaced', (params) => {
+            this.socket.send("append " + params.block.x + " " + params.block.y + " " + params.block.z + " " + params.block.mat)
         });
     }
 }

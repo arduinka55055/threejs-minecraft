@@ -10,7 +10,6 @@ import { GameSocket } from "./src/socket.js";
 var PostInitEvent = new Event('postInit');//викликати після завантаження системи для ініціації імпортів(як бібліотеки)
 var AnimateEvent = new CustomEvent('animateEvent', { 'delta': null })//виклик кожного оновлення (fps)
 var prevTime = performance.now();//відлік часу для різниці
-var color = new THREE.Color();
 
 window.camera = null;//глобальні об'єкти
 window.renderer = null;
@@ -26,31 +25,6 @@ animate();
 
 
 
-
-
-
-//не треба, але пізніше знадобиться в нових версіях
-
-function miraculous(model, end = function () { console.log('Successful loading!'); }, anim = null, name = null) {
-    if (name == null) { name = model; }
-    var loader = new THREE.GLTFLoader();
-    loader.load('/static/gltf/' + model + '.glb', function (gltf) {//edrien
-        gltf.window.scene.name = name;
-        window.scene.add(gltf.window.scene);
-        if (gltf.animations.length > 0 && anim != null) {
-            var mixer = new THREE.AnimationMixer(gltf.window.scene);
-            mixer.clipAction(gltf.animations[anim[0]]).play();
-            animations.push([mixer, anim[1]]);
-        }
-        gltf.window.scene.traverse(function (node) {
-            if (node instanceof THREE.Mesh) { node.castShadow = true; }
-        });
-        window.scene.getObjectByName(model).castShadow = true;
-        end(gltf.window.scene);
-    }, undefined, function (error) {
-        console.error(error);
-    });
-}
 
 
 function initsys() {
