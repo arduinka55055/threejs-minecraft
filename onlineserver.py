@@ -124,6 +124,7 @@ if sys.platform == 'win32':
         "certfile": os.path.join("d:/PEM/certificate.crt"),
         "keyfile": os.path.join("d:/PEM/private.key"),
     })
+    os.system('color 0')
 elif sys.platform == 'linux':
     http_server = HTTPServer(make_app(), ssl_options={
         "certfile": os.path.join("/home/pi/Документы/PEM/certificate.crt"),
