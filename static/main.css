@@ -134,8 +134,10 @@ canvas {
 }
 #errorC{
     position: absolute;
-    left:97%;
+    left:96%;
     top:1%;
+    width: 2ex;
+    height: 2ex;
     font-weight: bold;
     color:red;
 }

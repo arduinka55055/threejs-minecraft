@@ -1,4 +1,10 @@
 export function miraculous(model, end = function () { console.log('Successful loading!'); }, anim = null, name = null) {
+    /**
+     @param model просто фігачим ім'я файлу(шляхи і розширения не треба, edrien наприклад)
+     @param end функція після прогрузки моделі, можна змінити розміри
+     @param anim номер анімації, їх можуть декілька всунути
+     @param name ім'я, щоб звертатись після завантаження 
+     */
     if (name == null) { name = model; }
     var loader = new THREE.GLTFLoader();
     loader.load('/static/gltf/' + model + '.glb', function (gltf) {//edrien
@@ -12,7 +18,7 @@ export function miraculous(model, end = function () { console.log('Successful lo
         gltf.scene.traverse(function (node) {
             if (node instanceof THREE.Mesh) { node.castShadow = true; }
         });
-        window.scene.getObjectByName(model).castShadow = true;
+        window.scene.getObjectByName(name).castShadow = true;
         end(gltf.scene);
     }, undefined, function (error) {
         console.error(error);

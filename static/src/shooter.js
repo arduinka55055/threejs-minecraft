@@ -70,7 +70,7 @@ document.addEventListener('animateEvent', function (params) {
                 window.objects.splice(cc, 1);
                 var indexx = bullets.indexOf(b);
                 bullets.splice(indexx, 1);
-
+                window.renderer.renderLists.dispose();
             }
         }
         b.distanceB += -500 * delta;//рухаємо

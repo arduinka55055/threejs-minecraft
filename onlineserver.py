@@ -7,6 +7,7 @@ import sys
 import math
 import random
 import json
+import uuid
 clients = []
 
 
@@ -53,10 +54,17 @@ class MainHandler(tornado.websocket.WebSocketHandler):
         self.set_nodelay(True)
         print("WebSocket opened")
         self.write_message(str(len(clients)).encode())
+        self.nick=str(uuid.uuid4())
+        for clientt in clients:
+            if not clientt == self:
+                clientt.write_message(b"move %b 0 20 0" % self.nick.encode())
 
     def on_message(self, message):
-        print(message)
         msg = message.split()
+
+        if not msg[0] == "move":
+            print(message)
+
         if msg[0] == "close":
             IOLoop.current().stop()
 
@@ -70,6 +78,12 @@ class MainHandler(tornado.websocket.WebSocketHandler):
             for clientt in clients:
                 if not clientt == self:
                     clientt.write_message(message)
+        elif msg[0] == "move":
+            for clientt in clients:
+                if not clientt == self:
+                    clientt.write_message(message)
+        elif msg[0]== "mynick":
+            self.write_message(b"nick %b" % self.nick.encode())
 
         elif msg[0] == "append":
             self.write_message(u"success" if mygame.addXYZM(
@@ -81,6 +95,8 @@ class MainHandler(tornado.websocket.WebSocketHandler):
 
     def on_close(self):
         clients.remove(self)
+        for clientt in clients:
+            clientt.write_message("kick %s" % self.nick)
         print("WebSocket closed")
 
 
@@ -91,7 +107,6 @@ class MainHandler(tornado.websocket.WebSocketHandler):
 class PingHandler(tornado.websocket.WebSocketHandler):
     def open(self):
         self.write_message(str(len(clients)).encode())
-
     def check_origin(self, origin):
         return True
 

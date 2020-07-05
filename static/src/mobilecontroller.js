@@ -217,7 +217,7 @@ document.addEventListener('animateEvent', function(params){
 		
 		if ( window.camera.position.y < 15 ) {
 			velocity.y = 0;
-			camera.position.y = 15;
+			camera.position.y = 25;
 			canJump = true;
 		}
 	});

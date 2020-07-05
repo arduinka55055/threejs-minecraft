@@ -51,7 +51,7 @@ window.onerror=function(msg, url, line, col, error) {
     var errorpos = document.createTextNode("Position: "+line+" line "+col+" column.");
     var header2 = document.createElement("div");
 
-    var errorCloseT = document.createTextNode("×");
+    var errorCloseT = document.createTextNode("X");
     var errorClose = document.createElement("div");
 
     header.appendChild(textHeader);
