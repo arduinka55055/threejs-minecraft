@@ -27,8 +27,8 @@ export class GameSocket {
                 console.log('Соединение закрыто чисто');
             } else {
                 console.warn('Обрыв соединения'); // например, "убит" процесс сервера
+                setTimeout(()=>window.location.href="/",1000);
                 alert("З'єднання з сервером розірвано\nПерехід на головну сторінку...");
-                window.location.href="/";
             }
             console.log('Код: ' + event.code + ' причина: ' + event.reason);
         };
@@ -37,7 +37,8 @@ export class GameSocket {
 
             console.info("Получены данные " + event.data);
             var splitted = event.data.split(" ")
-            console.log(splitted)
+            if(splitted[0]!="move"){console.log(splitted);}
+
             if (splitted[0] === "move") {
                 if (!this.playernicks.includes(splitted[1]) && splitted[1]!="null") {
                     console.log("new creeper");
@@ -45,7 +46,12 @@ export class GameSocket {
                     microutils.miraculous("newcreeper", (model) => { model.scale.set(20, 20, 20); }, null, splitted[1]);
                 }
                 else {
+                    try{
                     window.scene.getObjectByName(splitted[1]).position.copy(microutils.strXYZ2Vector3(splitted[2], splitted[3], splitted[4]));
+                    }
+                    catch(TypeError){
+                        console.warn("access to unloaded object")
+                    }
                 }}
                 if (splitted[0] === "kick") {
                     window.scene.remove(window.scene.getObjectByName(splitted[1]))
@@ -108,13 +114,28 @@ export class GameSocket {
                 console.error("Ошибка " + error.message);
             };
             document.addEventListener('blockDeleted', (params) => {
+                try{
                 this.socket.send("delete " + params.block.x + " " + params.block.y + " " + params.block.z)
+                }
+                catch(InvalidStateError){
+                    console.warn("socket is not connected yet, can't send it now :(")
+                }
             });
             document.addEventListener('blockPlaced', (params) => {
+                try{
                 this.socket.send("append " + params.block.x + " " + params.block.y + " " + params.block.z + " " + params.block.mat)
+            }
+            catch(InvalidStateError){
+                console.warn("socket is not connected yet, can't send it now :(")
+            }
             });
             document.addEventListener('animateEvent', (params) =>{
+                try{
                 this.socket.send("move "+this.ownnick+" "+window.camera.position.x+" "+(window.camera.position.y-9)+" "+window.camera.position.z)
+            }
+            catch(InvalidStateError){
+                console.warn("socket is not connected yet, can't send it now :(")
+            }
             });
         }
     }

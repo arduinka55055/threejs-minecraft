@@ -51,7 +51,7 @@ window.onerror=function(msg, url, line, col, error) {
     var errorpos = document.createTextNode("Position: "+line+" line "+col+" column.");
     var header2 = document.createElement("div");
 
-    var errorCloseT = document.createTextNode("X");
+    var errorCloseT = document.createTextNode("×");
     var errorClose = document.createElement("div");
 
     header.appendChild(textHeader);
@@ -75,7 +75,7 @@ window.onerror=function(msg, url, line, col, error) {
     errorContainer.id="errorM";
     errorClose.id="errorC";
     document.body.appendChild(element);
-    errorClose.addEventListener("touchstart",function(){document.body.removeChild(element);});
+    element.addEventListener("touchstart",function(){document.body.removeChild(element);});
 }
 
 
