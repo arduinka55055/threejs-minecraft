@@ -33,8 +33,10 @@ export var materials = [[
 
 materials.forEach((list) => {
 	list.forEach((texturka) => { 
-		texturka.anisotropy = 16;
+		texturka.map.magFilter = THREE.NearestFilter;
+		texturka.map.minFilter = THREE.NearestFilter;
 	})
 })
+
 //Навіщо пихати цю фігню всюди?
 //Текстури живуть тут
