@@ -8,8 +8,18 @@ import math
 import random
 import json
 import uuid
+import requests
 clients = []
 
+myserver={
+        "name": "Official server #1",
+        "ip": "wss://site9373r.dns-cloud.net:25555",
+        "maxplayers": 10
+    }
+
+async def addMyServer():
+    await asyncio.sleep(8)
+    requests.post("https://site9373r.dns-cloud.net/newserver",data=myserver)
 
 class GameHandler():
     def __init__(self):
@@ -109,6 +119,10 @@ class PingHandler(tornado.websocket.WebSocketHandler):
         self.write_message(str(len(clients)).encode())
     def check_origin(self, origin):
         return True
+    def on_message(self,message):
+        print(message)
+        if message == "ok":
+            print("success!")
 
 
 def make_app():
@@ -132,6 +146,5 @@ elif sys.platform == 'linux':
     })
 
 http_server.listen(25555)
-
-# IOLoop.current().add_callback(GameHandler())
+IOLoop.current().add_callback(addMyServer)
 IOLoop.current().start()
