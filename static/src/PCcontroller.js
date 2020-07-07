@@ -204,11 +204,9 @@ document.addEventListener('postInit', function () {
 		}
 
 
-
 		controls.moveRight(velocity.x * delta);
 		window.camera.position.y += velocity.y * delta;
 		controls.moveForward(-velocity.z * delta);
-		window.camera.position.multiplyScalar(10).round().divideScalar(10)
 		if (window.camera.position.y < 25) {//щоб ми не падали
 			velocity.y = 0;
 			camera.position.y = 25;
