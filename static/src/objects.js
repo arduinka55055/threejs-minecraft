@@ -15,11 +15,12 @@ document.addEventListener('postInit',function(){
 	//всунуть сервер сюда
 	*/
 //підлога	
-var floorGeometry = new THREE.BoxBufferGeometry( 2000, 0.1, 2000 );
-var floorTexture=new THREE.TextureLoader().load( '/static/textures/grassTop.png' );
+var floorGeometry = new THREE.BoxBufferGeometry( 500, 0.1, 500 );
+var floorTexture=new THREE.TextureLoader().load( '/static/textures/bedrock.png' );
+floorTexture.minFilter = THREE.NearestFilter;
 floorTexture.wrapS = THREE.RepeatWrapping;
 floorTexture.wrapT = THREE.RepeatWrapping;
-floorTexture.repeat.set( 80, 80 );
+floorTexture.repeat.set( 25, 25 );
 
 var floorMaterial = new THREE.MeshLambertMaterial({map:floorTexture});//new THREE.MeshLambertMaterial({color:'#aaa'});
 var floor = new THREE.Mesh( floorGeometry, floorMaterial );

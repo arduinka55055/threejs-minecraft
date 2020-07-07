@@ -38,6 +38,7 @@ canvas {
     border: solid 0.3vw yellow;
     width: 4vw;
     height: 4vw;
+    image-rendering: crisp-edges;
     /*margin:0px 0.2vw;*/
 }
 
