@@ -33,14 +33,11 @@ export function checkclick(action) {//використовуємо промін�
                 //////////////create object
                 var geometryy = new THREE.BoxBufferGeometry(20, 20, 20);
                 var voxel = new THREE.Mesh(geometryy, materials[selectIndex]);
-                voxel.position.copy(intersections2[0].point).add(intersections2[0].face.normal);
-                voxel.position.divideScalar(20).floor().multiplyScalar(20).floor().addScalar(20);
-                voxel.position.y -= 10;
+                voxel.position.copy(intersections2[0].object.position).add(intersections2[0].face.normal.multiplyScalar(20));
                 voxel.castShadow = true;
                 var bugflag = false;
-                for (var x = 0; x <= window.objects.length - 1; x++) {
-                    var blockinblockfix = window.objects[x].position.x == voxel.position.x && window.objects[x].position.y == voxel.position.y && window.objects[x].position.z == voxel.position.z;
-                    if (blockinblockfix == true) { bugflag = true; }
+                for (var x = 0; x < window.objects.length; x++) {
+                    if (window.objects[x].position.equals(voxel.position) ) { bugflag = true; }
                 }
                 ///////////////check bug
                 if (!bugflag) {
@@ -52,28 +49,7 @@ export function checkclick(action) {//використовуємо промін�
                     console.log(blockPlaceEvent.block)
                     document.dispatchEvent(blockPlaceEvent);
                 }
-                else {
-                    bugflag = false;
-                    voxel.position.copy(intersections2[0].point).add(new THREE.Vector3(intersections2[0].face.normal.x - 10, intersections2[0].face.normal.y, intersections2[0].face.normal.z - 10));
-                    voxel.position.divideScalar(20).floor().multiplyScalar(20).floor().addScalar(20);
-                    voxel.position.y -= 10;
-                    for (var x = 0; x <= window.objects.length - 1; x++) {
-                        var blockinblockfix = window.objects[x].position.x == voxel.position.x && window.objects[x].position.y == voxel.position.y && window.objects[x].position.z == voxel.position.z;
-                        if (blockinblockfix == true) { bugflag = true; }
-                    }
-                    if (!bugflag) {
-                        
-                        window.scene.add(voxel);
-                        voxel.bbox = new THREE.Box3().setFromObject(voxel);
-                        window.objects.push(voxel);
-                        
-                        blockPlaceEvent.block = { "x": voxel.position.x, "y": voxel.position.y, "z": voxel.position.z, 'mat': selectIndex }
-                        console.log(blockPlaceEvent.block)
-                        document.dispatchEvent(blockPlaceEvent);
-
-                    }
-                }
-                if (bugflag) { console.warn('блок заглючил и не поставился'); }
+                else { console.warn('блок заглючил и не поставился'); }
             }
         }
     }
