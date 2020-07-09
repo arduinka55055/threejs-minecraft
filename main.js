@@ -1,11 +1,13 @@
-﻿
-import "./src/objects.js";//імпорт об'єктів
-import "./src/PCcontroller.js"//контроллер на компьютер
-import "./src/shooter.js"//пістолет
+﻿//Import important modules{% if device %} {# двойной агент, сунуть чо надо #}
+import "./static/src/objects.js";//імпорт об'єктів
+import "./static/src/PCcontroller.js"//контроллер на компютер
+import "./static/src/shooter.js"//пістолет
+//end{% else %}
+import "./static/src/objects.js";//імпорт об'єктів
+import "./static/src/mobilecontroller.js"//контроллер на мобілку
+//end{% endif %}
 
-import { GameSocket } from "./src/socket.js";
-//import "./src/collisions.js"
-///import "./src/mobilecontroller.js"
+import { GameSocket } from "./static/src/socket.js";
 
 var PostInitEvent = new Event('postInit');//викликати після завантаження системи для ініціації імпортів(як бібліотеки)
 var AnimateEvent = new CustomEvent('animateEvent', { 'delta': null })//виклик кожного оновлення (fps)

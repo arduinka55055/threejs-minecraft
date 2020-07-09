@@ -44,7 +44,7 @@ def appendNewServer():
 
 
 @app.route('/game')
-def main():
+def maingame():
     try:
         platform = request.user_agent.platform.lower()
         print("\033[92m"+platform+"\033[0m")
@@ -59,6 +59,19 @@ def main():
     except:
         return open(cwd+'/index.html').read()
 
+@app.route('/main.js')
+def mainjs():
+    try:
+        platform = request.user_agent.platform.lower()
+        print("\033[92m"+platform+"\033[0m")
+        if platform == "windows" or platform == "linux":
+            return Response(render_template('main.js',device=1), mimetype='text/javascript')
+        elif platform == "android":
+            return Response(render_template('main.js',device=0), mimetype='text/javascript')
+        else:
+            return "you're very specific person! wait for updates or change device!"
+    except:
+        return Response(render_template('main.js',device=1), mimetype='text/javascript')
 
 @app.route('/')
 def servers():
