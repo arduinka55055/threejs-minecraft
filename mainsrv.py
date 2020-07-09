@@ -22,7 +22,7 @@ serverslist = []
 async def validateServer(uri,srvname,maxplayers):
     try:
         # uri = "wss://localhost:25555" копипасточка!
-        connection=await asyncio.wait_for(websockets.connect(uri+"/ping"), 8)
+        connection=await asyncio.wait_for(websockets.connect(uri+"/ping"), 5)
         await connection.send("ok")
         addthis={
             "name":srvname,
@@ -42,7 +42,15 @@ def appendNewServer():
     asyncio.get_event_loop().create_task(validateServer(ip,request.values.get("name"),request.values.get("maxplayers")))
     return ip
 
-
+@app.route("/error", methods=["post"])
+def errorinjs():
+    errorlogfile=open(cwd+"/JSerrors.log","a")
+    errorlogfile.write("\r\nNew Error!\r\n")
+    errorlogfile.write(request.values.get("error"))
+    errorlogfile.write("\r\nfile %s" % request.values.get("file"))
+    errorlogfile.write("\r\nline %s\r\n" % request.values.get("line"))
+    errorlogfile.close()
+    return "OK"
 @app.route('/game')
 def maingame():
     try:
