@@ -7,7 +7,7 @@ import "./static/src/objects.js";//імпорт об'єктів
 import "./static/src/mobilecontroller.js"//контроллер на мобілку
 import "./static/src/friendlyerror.js"
 //end{% endif %}
-dd
+
 import { GameSocket } from "./static/src/socket.js";
 
 var PostInitEvent = new Event('postInit');//викликати після завантаження системи для ініціації імпортів(як бібліотеки)
