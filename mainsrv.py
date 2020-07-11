@@ -21,6 +21,7 @@ serverslist = []
 
 async def validateServer(uri,srvname,maxplayers):
     try:
+        print(uri)
         # uri = "wss://localhost:25555" копипасточка!
         connection=await asyncio.wait_for(websockets.connect(uri+"/ping"), 5)
         await connection.send("ok")

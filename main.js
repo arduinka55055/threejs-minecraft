@@ -20,7 +20,7 @@ window.scene = null;
 window.objects = [];
 
 initsys();
-var sck = new GameSocket()
+var sck = new GameSocket(new URL(window.location.href).searchParams.get("ip"))
 document.dispatchEvent(PostInitEvent);//свій event після прогрузки
 animate();
 

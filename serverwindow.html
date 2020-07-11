@@ -71,7 +71,7 @@
             {% for srv in servers %}
             <tr id="s{{ sha1((srv.name+srv.ip).encode()).hexdigest() }}">
                 <td>{{ srv.name }}</td>
-                <td class="ip">{{ srv.ip[srv.ip.index("://")+3:] }}</td>
+                <td class="ip">{{ srv.ip }}</td>
                 <td class="maxp">{{ srv.maxplayers }}</td>
                 <td class="ping">∞</td>
                 <script>
