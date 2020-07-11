@@ -10,16 +10,33 @@ import json
 import uuid
 import requests
 clients = []
-
-myserver={
-        "name": "Official server #1",
-        "ip": "wss://site9373r.dns-cloud.net:25555",
-        "maxplayers": 10
+print("\033[92mLOCAL GAME SERVER MODE\033[0m" if "local" in sys.argv else None)
+myserver = {
+    # server name just to display."super nice server, donate only for 0.1$, etc"
+    "name": "Official server #1",
+    # your global server IP address or domain, you must change it
+    # also wss means secured server. If you dont have cert files - remove second 's' character, or better use letsencrypt
+    "ip": "wss://site9373r.dns-cloud.net:25555",
+    # your server port to bind
+    "srvport": 25555,
+    # player limit
+    "maxplayers": 10
+}
+if "local" in sys.argv:
+    myserver = {
+        "name": "Debug server #1",
+        "ip": "ws://127.0.0.1:25555",
+        "srvport": 25555,
+        "maxplayers": 2
     }
 
+
 async def addMyServer():
-    await asyncio.sleep(8)
-    requests.post("https://site9373r.dns-cloud.net/newserver",data=myserver)
+    await asyncio.sleep(2)
+    requests.post(
+        "http://127.0.0.1/newserver" if "local" in sys.argv
+        else"https://site9373r.dns-cloud.net/newserver", data=myserver)
+
 
 class GameHandler():
     def __init__(self):
@@ -64,7 +81,7 @@ class MainHandler(tornado.websocket.WebSocketHandler):
         self.set_nodelay(True)
         print("WebSocket opened")
         self.write_message(str(len(clients)).encode())
-        self.nick=str(uuid.uuid4())
+        self.nick = str(uuid.uuid4())
         for clientt in clients:
             if not clientt == self:
                 clientt.write_message(b"move %b 0 20 0" % self.nick.encode())
@@ -77,7 +94,6 @@ class MainHandler(tornado.websocket.WebSocketHandler):
 
         if msg[0] == "close":
             IOLoop.current().stop()
-
 
         if msg[0] == "world":
             self.write_message(json.dumps(mygame.getWorld()).encode())
@@ -92,7 +108,7 @@ class MainHandler(tornado.websocket.WebSocketHandler):
             for clientt in clients:
                 if not clientt == self:
                     clientt.write_message(message)
-        elif msg[0]== "mynick":
+        elif msg[0] == "mynick":
             self.write_message(b"nick %b" % self.nick.encode())
 
         elif msg[0] == "append":
@@ -109,7 +125,6 @@ class MainHandler(tornado.websocket.WebSocketHandler):
             clientt.write_message("kick %s" % self.nick)
         print("WebSocket closed")
 
-
     def check_origin(self, origin):
         return True
 
@@ -117,9 +132,11 @@ class MainHandler(tornado.websocket.WebSocketHandler):
 class PingHandler(tornado.websocket.WebSocketHandler):
     def open(self):
         self.write_message(str(len(clients)).encode())
+
     def check_origin(self, origin):
         return True
-    def on_message(self,message):
+
+    def on_message(self, message):
         print(message)
         if message == "ok":
             print("success!")
@@ -132,19 +149,26 @@ def make_app():
     ], websocket_ping_interval=5)
 
 
-if sys.platform == 'win32':
-    http_server = HTTPServer(make_app(), ssl_options={
-        # letsencrypt.org will help you, bro
-        "certfile": os.path.join("d:/PEM/certificate.crt"),
-        "keyfile": os.path.join("d:/PEM/private.key"),
-    })
+if "local" in sys.argv:
+    http_server = HTTPServer(make_app())
     os.system('color 0')
-elif sys.platform == 'linux':
-    http_server = HTTPServer(make_app(), ssl_options={
-        "certfile": os.path.join("/home/pi/Документы/PEM/certificate.crt"),
-        "keyfile": os.path.join("/home/pi/Документы/PEM/private.key"),
-    })
+    http_server.listen(myserver["srvport"])
+else:
+    if sys.platform == 'win32':
+        http_server = HTTPServer(make_app(), ssl_options={
+            "certfile": os.path.join("d:/PEM/certificate.crt"),
+            "keyfile": os.path.join("d:/PEM/private.key"),
+        })
+        os.system('color 0')
+        http_server.listen(myserver["srvport"])
+    elif sys.platform == 'linux':
+        http_server = HTTPServer(make_app(), ssl_options={
+            # path to your SSL files
+            "certfile": os.path.join("/home/pi/Документы/PEM/certificate.crt"),
+            "keyfile": os.path.join("/home/pi/Документы/PEM/private.key"),
+        })
+        http_server.bind(myserver["srvport"])
+        http_server.start(0)
 
-http_server.listen(25555)
 IOLoop.current().add_callback(addMyServer)
 IOLoop.current().start()
