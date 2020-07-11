@@ -1,7 +1,7 @@
 # threejs-minecraft
 <h3>3d game, minecraft parody.</h3>
 
-official server:
+official server(unavailable, updating server files):
 https://site9373r.dns-cloud.net/
 
 cross-platform and playable from browser
