@@ -131,7 +131,7 @@ export class GameSocket {
             });
             document.addEventListener('animateEvent', (params) =>{
                 try{
-                this.socket.send("move "+this.ownnick+" "+window.camera.position.x+" "+(window.camera.position.y-9)+" "+window.camera.position.z)
+                //this.socket.send("move "+this.ownnick+" "+window.camera.position.x+" "+(window.camera.position.y-9)+" "+window.camera.position.z)
             }
             catch(InvalidStateError){
                 console.warn("socket is not connected yet, can't send it now :(")

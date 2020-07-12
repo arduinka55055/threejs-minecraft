@@ -11,12 +11,12 @@ import uuid
 import requests
 import asyncio
 clients = []
-print("\033[92mLOCAL GAME SERVER MODE\033[0m" if "local" in sys.argv else None)
+print("\033[94mLOCAL GAME SERVER MODE\033[0m" if "local" in sys.argv else "\033[93mPRODUCTION GAME SERVER MODE\033[0m")
 myserver = {
     # server name just to display."super nice server, donate only for 0.1$, etc"
     "name": "Official server #1",
     # your global server IP address or domain, you must change it
-    # also wss means secured server. If you dont have cert files - remove second 's' character, or better use letsencrypt
+    # also wss means secured server. If you dont have cert files - use letsencrypt to create it. not secured websockets won't work!
     "ip": "wss://site9373r.dns-cloud.net:25555",
     # your server port to bind
     "srvport": 25555,
