@@ -9,6 +9,7 @@ import random
 import json
 import uuid
 import requests
+import asyncio
 clients = []
 print("\033[92mLOCAL GAME SERVER MODE\033[0m" if "local" in sys.argv else None)
 myserver = {
@@ -35,7 +36,7 @@ async def addMyServer():
     await asyncio.sleep(2)
     requests.post(
         "http://127.0.0.1/newserver" if "local" in sys.argv
-        else"https://site9373r.dns-cloud.net/newserver", data=myserver)
+        else "https://site9373r.dns-cloud.net/newserver", data=myserver)
 
 
 class GameHandler():

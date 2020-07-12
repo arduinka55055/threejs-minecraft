@@ -85,7 +85,7 @@
                             document.querySelector("#s{{ sha1((srv.name+srv.ip).encode()).hexdigest() }} > .maxp").innerHTML = e.data + "/{{ srv.maxplayers }}";
                             e.target.close();
                         }
-                        pinger.onerror = () => { document.querySelector("#s{{ sha1((srv.name+srv.ip).encode()).hexdigest() }} > .ping").innerHTML = "∞"; e.target.close(); }
+                        pinger.onerror = (e) => { document.querySelector("#s{{ sha1((srv.name+srv.ip).encode()).hexdigest() }} > .ping").innerHTML = "∞"; e.target.close(); }
                     }, 1000);
 
                 </script>
