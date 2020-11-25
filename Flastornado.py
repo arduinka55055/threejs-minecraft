@@ -18,20 +18,12 @@ if "local" in sys.argv:
     os.system('color 0')
     http_server.listen(80)
 else:
-    if sys.platform == 'win32':
-        http_server = HTTPServer(WSGIContainer(app), ssl_options={
-            "certfile": os.path.join("d:/PEM/certificate.crt"),
-            "keyfile": os.path.join("d:/PEM/private.key"),
-        })
-        os.system('color 0')
-        http_server.listen(443)
-    elif sys.platform == 'linux':
-        http_server = HTTPServer(WSGIContainer(app), ssl_options={
-            # path to your SSL files
-            "certfile": os.path.join("/home/pi/Документы/PEM/certificate.crt"),
-            "keyfile": os.path.join("/home/pi/Документы/PEM/private.key"),
-        })
-        http_server.bind(443)
-        http_server.start(0)
+    http_server = HTTPServer(WSGIContainer(app), ssl_options={
+        # path to your SSL files
+        "certfile": os.path.join("/home/pi/Документы/PEM/certificate.crt"),
+        "keyfile": os.path.join("/home/pi/Документы/PEM/private.key"),
+    })
+    http_server.bind(443)
+    http_server.start(0)
 
 IOLoop.instance().start()
