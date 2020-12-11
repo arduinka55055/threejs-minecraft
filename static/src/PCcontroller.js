@@ -126,20 +126,20 @@ document.addEventListener('postInit', function () {
 		direction.z = Number(moveForward) - Number(moveBackward);
 		direction.x = Number(moveLeft) - Number(moveRight);
 		direction.normalize(); // this ensures consistent movements in all directions
-		/* ЕКСПЕРИМЕНТ
+		// ЕКСПЕРИМЕНТ
 
 		var cameraBBOX=new THREE.Box3().setFromObject(window.camera);
 
-		document.getElementById('alerter').innerHTML="d";
+		document.getElementById('alerter').innerHTML="de";
 		window.objects.forEach(obj => {
-			//obj.bbox=new THREE.Box3().setFromObject(obj);
+			obj.bbox=new THREE.Box3().setFromObject(obj);
 
-			if(obj.bbox.intersectsBox(cameraBBOX) == true && 0){
+			if(obj.bbox.intersectsBox(cameraBBOX) == true){
 				box.rotation.set(0,0,0);
-				//var diff=new THREE.Vector3(window.camera.position.x,window.camera.position.y,window.camera.position.z).multiplyScalar(-1);
+				var diff=new THREE.Vector3(window.camera.position.x,window.camera.position.y,window.camera.position.z).multiplyScalar(-1);
 				var oldCameraR=new THREE.Vector3();
 				oldCameraR.set(camera.rotation.x,camera.rotation.y,camera.rotation.z);
-				var diff=new THREE.Vector3(cameraBBOX.getCenter().x,cameraBBOX.getCenter().y,cameraBBOX.getCenter().z);
+				//var diff=new THREE.Vector3(cameraBBOX.getCenter().x,cameraBBOX.getCenter().y,cameraBBOX.getCenter().z);
 				var dObj=new THREE.Vector3(obj.bbox.getCenter().x,obj.bbox.getCenter().y,obj.bbox.getCenter().z).multiplyScalar(-1);
 				diff.add(dObj);
 
@@ -155,7 +155,7 @@ document.addEventListener('postInit', function () {
 				window.camera.position.x+=delta/diff.x*1000;
 				window.camera.position.z+=delta/diff.z*1000;}
 
-
+			    console.log(diff)
 				//window.camera.position.x=Math.round(window.camera.position.x * 1)/1;
 				//window.camera.position.z=Math.round(window.camera.position.z * 1)/1;
 
@@ -190,10 +190,10 @@ document.addEventListener('postInit', function () {
 				//window.camera.updateProjectionMatrix();
 				
 			}
-			НАФІГ НІКОМУ НЕ ПОТРІБНЕ ГЛЮКОВО(можливо потім потрібне, для колізії)
+			//НАФІГ НІКОМУ НЕ ПОТРІБНЕ ГЛЮКОВО(можливо потім потрібне, для колізії)
 			
 		});
-		*/
+		
 
 		if (moveForward || moveBackward) velocity.z -= direction.z * 500.0 * delta; //500
 		if (moveLeft || moveRight) velocity.x -= direction.x * 500.0 * delta;
